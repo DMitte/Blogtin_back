@@ -30,7 +30,7 @@ const userRoutes = require('./app/routes/user');
 
 
 app.use('/api/blog/auth', authRoutes);
-app.use('/api/blog/posts', verifyToken, uploadMiddleware, postRoutes);
+app.use('/api/blog/posts', uploadMiddleware, postRoutes);
 app.use('/api/blog/users', verifyToken , userRoutes);
 
 //conexion con la base de datos

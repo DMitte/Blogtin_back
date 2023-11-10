@@ -12,7 +12,7 @@ const schemaRegister = Joi.object({
     repeat_password: Joi.ref('password'),
     name: Joi.string().max(255),
     lastname: Joi.string().max(255),
-    img: Joi.string().min(6),
+    imgName: Joi.string().min(6).default("defaultImg.jpg"),
     birthday: Joi.date(),
     username: Joi.string().min(3).max(30),
 })
@@ -39,7 +39,12 @@ router.post('/register', async (req,res) =>{
 
     //get image path
     const bucket = admin.storage().bucket();
-    const filename = req.body.imgName
+    var filename;
+    if(!req.body.imgName ){
+        filename = "defaultImg.jpg"    
+    }else{
+        filename = req.body.imgName
+    }
     const file= bucket.file(filename)
     const [url] = await file.getSignedUrl({
         action: 'read',
@@ -52,7 +57,7 @@ router.post('/register', async (req,res) =>{
         name: req.body.name || '',
         lastname: req.body.lastname ||'',
         imgUrl: url,
-        imgName: req.body.imgName,
+        imgName: req.body.imgName||'defaultImg.jpg',
         birthday: req.body.birthday ,
         username: req.body.username||'',
     })
