@@ -22,6 +22,7 @@ app.use(bodyparser.json());
 //import middleware
 const verifyToken = require('./app/middleware/validate-token');
 const uploadMiddleware = require('./app/middleware/img-upload');
+const compressMiddleware = require('./app/middleware/compress-img')
 
 //import routes
 const authRoutes = require('./app/routes/auth');
@@ -30,7 +31,7 @@ const userRoutes = require('./app/routes/user');
 
 
 app.use('/api/blog/auth', authRoutes);
-app.use('/api/blog/posts', uploadMiddleware, postRoutes);
+app.use('/api/blog/posts',compressMiddleware, uploadMiddleware, postRoutes);
 app.use('/api/blog/users', verifyToken , userRoutes);
 
 //conexion con la base de datos

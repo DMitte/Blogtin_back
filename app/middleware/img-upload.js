@@ -1,6 +1,7 @@
 const multer = require("multer");
 const admin = require("firebase-admin");
 const serviceAccount = require("../../serviceAccountKey.json");
+const compressImage = require("compress-images")
 
 const storage = multer.memoryStorage({});
 
@@ -20,9 +21,10 @@ const uploadMiddleware = (req, res, next) => {
     if (!file && req.url === "/new") {
       return res.status(400).send("No se ha subido ningún archivo");
     } else if (req.url === "/new") {
+
       const blob = bucket.file(`${Date.now()}_${file.originalname}`);
 
-      const blobStream = blob.createWriteStream({
+      const blobStream= blob.createWriteStream({
         metadata: {
           contentType: file.mimetype,
         },
